@@ -24,14 +24,17 @@ def showMap():
 dungeon = ("Dungeon","You are in the dark dungeon of the castle\n" +
         "You find a strange hole in the wall")
 tunnel = ("Tunnel","You are in a secret tunnel under the castle\n" +
-        "You make your way to a ladder that leads to the West Hall")
+        "You make your way to a ladder that leads to the Main Hall")
 westHall = ("West Hall","You have entered the West Hall\n" +
         "This is the service area")
 storeRoom = ("Storeroom","You have entered the storeroom\n" +
         "It is full of old barrels.")
 pantry = ("Pantry","You have entered the pantry\n" +
         "FOOD! - Get one extra turn")
-eastHall = ("East Hall","You have entered the East Hall... ahh")
+eastHall = ("East Hall","You have entered the East Hall...")
+northHall = ("North Hall","You have entered the North Hall...")
+southHall = ("South Hall","You have entered the South Hall...")
+mainHall = ("Main Hall","You have entered the Main Hall...")
 exitDoor = ("Strange Trap Door","You have found the secret exit!")
 
 # This is a dictionary, it lets you map keys to values
@@ -41,18 +44,21 @@ exitDoor = ("Strange Trap Door","You have found the secret exit!")
 # Ex: transitons[dungeon] returns (westHall, eastHall) 
 transitions = {
     dungeon: (tunnel,),
-    tunnel: (westHall,),
-    westHall: (eastHall,pantry,storeRoom,),
+    tunnel: (mainHall,),
+    westHall: (mainHall,pantry,storeRoom,),
     storeRoom: (westHall,),
     pantry: (westHall,),
-    eastHall: (westHall,exitDoor)
+    mainHall: (westHall,eastHall,northHall,southHall,),
+    eastHall: (mainHall,exitDoor,),
+    northHall: (mainHall,),
+    southHall: (mainHall,)
 }
 
 # Lets start the game.  I'll put the player in the dungeon
 location = dungeon
 tries = 10
 victory = False
-print "WELCOME TO CHRISTINoA'S CASTLE!"
+print "WELCOME TO CHRISTINA'S CASTLE!"
 print "YOU HAVE " + str(tries) + " TO ESCAPE!!!"
 
 # While is a kind of loop... a control structure
@@ -117,6 +123,7 @@ while tries > 0 and victory == False:
     tries = tries -1
 
 if victory == True:
+    print exitDoor[1]
     print "You have lived to escape the castle!"
 else:
     print "You have died in the castle!"
